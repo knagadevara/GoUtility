@@ -1,4 +1,4 @@
-package utl
+package goutility
 
 import (
 	"crypto/tls"

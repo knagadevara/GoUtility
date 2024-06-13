@@ -1,4 +1,4 @@
-package utl
+package goutility
 
 import (
 	"bufio"
@@ -66,5 +66,30 @@ func CheckFileExists(fileName string) os.FileInfo {
 	} else {
 		log.Printf("Loading %s...\n", fileName)
 		return fileInfo
+	}
+}
+
+// Load data from file.
+func CreateOrLoadData[T any](httpMethod, apiURL, fileName string) T {
+	var file *os.File
+
+	fileInfo := CheckFileExists(fileName)
+	defer file.Close()
+
+	if fileInfo != nil && fileInfo.Size() > 0 {
+
+		file = OperateFile(fileName, os.O_RDONLY, 0655)
+		return DecodeFileToStruct[T](file)
+
+	} else {
+
+		log.Printf("Creating %s...\n", fileName)
+		resp := CallApi(httpMethod, apiURL)
+		defer resp.Body.Close()
+
+		file = OperateFile(fileName, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0655)
+		_ = WriteToFile(file, resp.Body)
+
+		return DecodeFileToStruct[T](file)
 	}
 }
