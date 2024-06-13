@@ -6,6 +6,8 @@ import (
 	"io"
 	"log"
 	"os"
+
+	"gopkg.in/yaml.v3"
 )
 
 // Opens a file and makes it available in byte array
@@ -92,4 +94,13 @@ func CreateOrLoadData[T any](httpMethod, apiURL, fileName string) T {
 
 		return DecodeFileToStruct[T](file)
 	}
+}
+
+func YmlToStruct[T any](yamlBuf []byte) *T {
+	var ymlStr T
+	err := yaml.Unmarshal(yamlBuf, &ymlStr)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return &ymlStr
 }
