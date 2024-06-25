@@ -1,4 +1,4 @@
-module GoUtility
+module github.com/knagadevara/GoUtility
 
 go 1.22.1
 
