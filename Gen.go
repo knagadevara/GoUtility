@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"os"
 	"strings"
 )
 
@@ -35,4 +36,16 @@ func GetRandItem[T any](tp []T) *T {
 	fmt.Println(len(tp))
 	c := tp[rand.Intn(len(tp))]
 	return &c
+}
+
+func GetNewRdr(reader *bufio.Reader) *bufio.Reader {
+	return bufio.NewReader(reader)
+}
+
+func GetNewRdrWritr(reader *bufio.Reader, writer *bufio.Writer) *bufio.ReadWriter {
+	return bufio.NewReadWriter(reader, writer)
+}
+
+func GetNewStdInRdr() *bufio.Reader {
+	return bufio.NewReader(os.Stdin)
 }
